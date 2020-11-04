@@ -12,6 +12,8 @@ namespace RoomBooking.Core.Entities
         {
             Bookings = new List<Booking>();
         }
-
+       
+      
+            
     }
 }

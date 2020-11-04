@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RoomBooking.Core.Contracts;
 using RoomBooking.Core.Entities;
+using RoomBooking.Wpf.DataTransferObjects;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -45,5 +46,7 @@ namespace RoomBooking.Persistence
           .Where(b => b.Room.Id == roomId)
           .OrderBy(b => b.From)
           .ToListAsync();
-  }
+
+
+}
 }

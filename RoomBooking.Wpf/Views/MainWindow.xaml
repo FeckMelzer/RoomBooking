@@ -19,11 +19,11 @@
             <ComboBox Height="20" ItemsSource="{Binding Path=Room}" SelectedItem="{Binding Path=SelectedRoom}"></ComboBox>
         </StackPanel>
 
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Booking}" SelectedItem="{Binding SelectedCustomer}">
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Booking}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedBooking}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="From" Binding="{Binding From}"/>
-                <DataGridTextColumn Header="To" Binding="{Binding To}"/>
-                <DataGridTextColumn Header="Customer" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="From" Binding="{Binding Path=From, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="To" Binding="{Binding Path=To, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Customer" Binding="{Binding Path=Customer.Name, UpdateSourceTrigger=PropertyChanged}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>  

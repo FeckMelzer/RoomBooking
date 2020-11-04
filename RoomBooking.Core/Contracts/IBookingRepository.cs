@@ -1,4 +1,5 @@
 ﻿using RoomBooking.Core.Entities;
+using RoomBooking.Wpf.DataTransferObjects;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -17,5 +18,6 @@ namespace RoomBooking.Core.Contracts
     void Delete(Booking booking);
 
     Task<IEnumerable<Booking>> GetByRoomWithCustomerAsync(int roomId);
-  }
+
+    }
 }

@@ -16,11 +16,10 @@ namespace RoomBooking.Persistence
       _dbContext = dbContext;
     }
 
-    public async Task<IEnumerable<Room>> GetAllAsync()
-      => await _dbContext
-            .Rooms
-            .OrderBy(r => r.RoomNumber)
-            .ToListAsync();
-
+        public async Task<IEnumerable<Room>> GetAllAsync()
+          => await _dbContext
+                .Rooms
+                .OrderBy(r => r.RoomNumber)
+                .ToListAsync();
   }
 }
