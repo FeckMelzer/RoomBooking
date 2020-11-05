@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace RoomBooking.Wpf.ViewModels
 {
@@ -98,7 +99,23 @@ namespace RoomBooking.Wpf.ViewModels
              throw new NotImplementedException();
         }
 
-    
+        private ICommand _cmdEditCustomer;
+        public ICommand CmdEditCustomer
+        {
+            get
+            {
+                if (_cmdEditCustomer == null)
+                {
+                    _cmdEditCustomer = new RelayCommand(
+                       execute: _ => Controller.ShowWindow(new EditCustomerViewModel(Controller, SelectedBookings.Customer),true),
+                       canExecute: _ => true);
+
+                }
+                return _cmdEditCustomer;
+            }
+
         }
+
+    }
     
 }

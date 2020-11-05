@@ -16,7 +16,7 @@
 
         <StackPanel Grid.Row="0">
             <TextBlock>Room:</TextBlock>
-            <ComboBox Height="20" ItemsSource="{Binding Path=Room}" SelectedItem="{Binding Path=SelectedRoom}"></ComboBox>
+            <ComboBox Height="20" ItemsSource="{Binding Path=Room}" SelectedItem="{Binding Path=SelectedRoom}" DisplayMemberPath="RoomNumber"></ComboBox>
         </StackPanel>
 
         <DataGrid Grid.Row="1" ItemsSource="{Binding Booking}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedBooking}">
@@ -26,6 +26,7 @@
                 <DataGridTextColumn Header="Customer" Binding="{Binding Path=Customer.Name, UpdateSourceTrigger=PropertyChanged}"/>
             </DataGrid.Columns>
         </DataGrid>
+        <Button Grid.Row="3" Command="{Binding CmdEditCustomer}" Content="{Binding Path=SeletedBooking.Customer.Name}"> </Button>
     </Grid>  
 </controls:MetroWindow>
 
