@@ -26,7 +26,7 @@
                 <DataGridTextColumn Header="Customer" Binding="{Binding Path=Customer.Name, UpdateSourceTrigger=PropertyChanged}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Grid.Row="3" Command="{Binding CmdEditCustomer}" Content="{Binding Path=SeletedBooking.Customer.Name}"> </Button>
+        <Button Grid.Row="3" Command="{Binding CmdEditCustomer}" Content="{Binding Path=SeletedBooking.Customer.Name}"/>
     </Grid>  
 </controls:MetroWindow>
 

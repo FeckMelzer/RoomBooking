@@ -20,6 +20,7 @@ namespace RoomBooking.Wpf.ViewModels
         public ObservableCollection<Room> _room;
         public Booking selectedBooking;
         public Room selectedRoom;
+        private Booking _selectedBookingNow;
 
         public ObservableCollection<Booking> Booking
         {
@@ -62,7 +63,6 @@ namespace RoomBooking.Wpf.ViewModels
         }
         public MainViewModel(IWindowController windowController) : base(windowController)
         {
-            LoadDataAsync();
         }
 
         private async Task LoadDataAsync()
@@ -72,20 +72,28 @@ namespace RoomBooking.Wpf.ViewModels
               .GetAllAsync();
             Room = new ObservableCollection<Room>(rooms);
             selectedRoom = Room.First();
-            await LoadBookings();
 
-          
 
-        }
 
-        private async Task LoadBookings()
-        {
-            using IUnitOfWork uow = new UnitOfWork();
             var bookings = await uow.Bookings
               .GetByRoomWithCustomerAsync(SelectedRoom.Id);
             Booking = new ObservableCollection<Booking>(bookings);
-            selectedBooking = Booking.First();
+
+            if(_selectedBookingNow == null)
+            {
+                SelectedBookings = Booking.First();
+
+            }
+            else
+            {
+                SelectedBookings = _selectedBookingNow;
+
+            }
+
+
         }
+
+      
 
         public static async Task<MainViewModel> CreateAsync(IWindowController windowController)
         {
