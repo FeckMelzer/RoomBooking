@@ -18,7 +18,6 @@ namespace RoomBooking.ImportConsole
         {
             string[][] matrix = await MyFile.ReadStringMatrixFromCsvAsync("bookings.csv", true);
             var customers = matrix
-              
                 .Select(cust => new Customer
                 {
                     FirstName = cust[1],
@@ -37,8 +36,8 @@ namespace RoomBooking.ImportConsole
             var bookings = matrix
                 .Select(book => new Booking
                 {
-                    Customer = customers.Single(s => book[0] == s.LastName && book[1] == s.FirstName && book[2] == s.Iban),
-                    Room = rooms.Single(s => book[3] == s.RoomNumber),
+                    Customer = customers.Single(s => s.LastName == book[0] && s.FirstName == book[1] && s.Iban == book[2]),
+                    Room = rooms.Single(s => s.RoomNumber == book[3]),
                     From = book[4],
                     To = book[5]
                 }).ToArray();

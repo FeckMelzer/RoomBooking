@@ -49,6 +49,7 @@ namespace RoomBooking.Wpf.ViewModels
             {
                 selectedRoom = value;
                 OnPropertyChanged(nameof(SelectedRoom));
+                LoadDataAsync();
             }
         }
         
@@ -116,7 +117,7 @@ namespace RoomBooking.Wpf.ViewModels
                 {
                     _cmdEditCustomer = new RelayCommand(
                        execute: _ => Controller.ShowWindow(new EditCustomerViewModel(Controller, SelectedBookings.Customer),true),
-                       canExecute: _ => true);
+                       canExecute: _ => SelectedBookings != null);
 
                 }
                 return _cmdEditCustomer;
@@ -125,5 +126,5 @@ namespace RoomBooking.Wpf.ViewModels
         }
 
     }
-    
+   
 }

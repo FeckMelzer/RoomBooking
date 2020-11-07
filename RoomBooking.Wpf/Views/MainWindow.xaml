@@ -19,7 +19,7 @@
             <ComboBox Height="20" ItemsSource="{Binding Path=Room}" SelectedItem="{Binding Path=SelectedRoom}" DisplayMemberPath="RoomNumber"></ComboBox>
         </StackPanel>
 
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Booking}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedBooking}">
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Booking}" IsReadOnly="True"  AutoGenerateColumns="False" SelectedItem="{Binding SelectedBooking}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="From" Binding="{Binding Path=From, UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="To" Binding="{Binding Path=To, UpdateSourceTrigger=PropertyChanged}"/>
