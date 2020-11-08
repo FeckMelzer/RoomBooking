@@ -65,7 +65,15 @@ namespace RoomBooking.Persistence
       }
       if (entity is Customer customer)  // WPF-Anwendung
       {
-       // throw new NotImplementedException("Customer-Validierung muss noch implementiert werden!");
+                if(await _dbContext.Customers.AnyAsync(c => c.Id != customer.Id
+                  && c.FirstName == customer.FirstName
+                  && c.LastName == customer.LastName
+                  && c.Iban == customer.Iban))
+                {
+                    throw new ValidationException(
+                        $"Name {customer.LastName} {customer.FirstName} existiert bereits",
+                        null, null);
+                }
       }
 
     }

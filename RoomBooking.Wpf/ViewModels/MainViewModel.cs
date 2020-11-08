@@ -3,7 +3,6 @@ using RoomBooking.Core.Entities;
 using RoomBooking.Persistence;
 using RoomBooking.Wpf.Common;
 using RoomBooking.Wpf.Common.Contracts;
-using RoomBooking.Wpf.DataTransferObjects;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -28,7 +27,7 @@ namespace RoomBooking.Wpf.ViewModels
             set
             {
                 _booking = value;
-                OnPropertyChanged(nameof(BookingDTO));
+                OnPropertyChanged(nameof(Booking));
             }
         }
 
@@ -49,17 +48,17 @@ namespace RoomBooking.Wpf.ViewModels
             {
                 selectedRoom = value;
                 OnPropertyChanged(nameof(SelectedRoom));
-                LoadDataAsync();
+                LoadBookingsAsync();
             }
         }
         
-        public Booking SelectedBookings
+        public Booking SelectedBooking
         {
             get => selectedBooking;
             set
             {
                 selectedBooking = value;
-                OnPropertyChanged(nameof(SelectedBookings));
+                OnPropertyChanged(nameof(SelectedBooking));
             }
         }
         public MainViewModel(IWindowController windowController) : base(windowController)
@@ -73,26 +72,33 @@ namespace RoomBooking.Wpf.ViewModels
               .GetAllAsync();
             Room = new ObservableCollection<Room>(rooms);
             selectedRoom = Room.First();
-
-
-
-            var bookings = await uow.Bookings
-              .GetByRoomWithCustomerAsync(SelectedRoom.Id);
-            Booking = new ObservableCollection<Booking>(bookings);
-
-            if(_selectedBookingNow == null)
-            {
-                SelectedBookings = Booking.First();
-
-            }
-            else
-            {
-                SelectedBookings = _selectedBookingNow;
-
-            }
+            await LoadBookingsAsync();
 
 
         }
+
+            private async Task LoadBookingsAsync()
+            {
+                _selectedBookingNow = SelectedBooking;
+            using IUnitOfWork uow = new UnitOfWork();
+
+            var bookings = await uow.Bookings
+                  .GetByRoomWithCustomerAsync(SelectedRoom.Id);
+                Booking = new ObservableCollection<Booking>(bookings);
+
+                if (_selectedBookingNow == null)
+                {
+                    SelectedBooking = Booking.First();
+
+                }
+                else
+                {
+                    SelectedBooking = _selectedBookingNow;
+
+                }
+
+            }
+        
 
       
 
@@ -116,8 +122,12 @@ namespace RoomBooking.Wpf.ViewModels
                 if (_cmdEditCustomer == null)
                 {
                     _cmdEditCustomer = new RelayCommand(
-                       execute: _ => Controller.ShowWindow(new EditCustomerViewModel(Controller, SelectedBookings.Customer),true),
-                       canExecute: _ => SelectedBookings != null);
+                       execute: _ =>
+                       {
+                           Controller.ShowWindow(new EditCustomerViewModel(Controller, SelectedBooking.Customer), true);
+                           LoadDataAsync();
+                       },
+                       canExecute: _ => SelectedBooking != null);
 
                 }
                 return _cmdEditCustomer;
