@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RoomBooking.Core.Contracts;
 using RoomBooking.Core.Entities;
+using RoomBooking.Core.Validations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -65,14 +66,29 @@ namespace RoomBooking.Persistence
       }
       if (entity is Customer customer)  // WPF-Anwendung
       {
-                if(await _dbContext.Customers.AnyAsync(c => c.Id != customer.Id
+                var dbcustomer = await _dbContext.Customers.Where(c => c.Id != customer.Id
                   && c.FirstName == customer.FirstName
-                  && c.LastName == customer.LastName
-                  && c.Iban == customer.Iban))
+                  && c.LastName == customer.LastName).ToListAsync();
+
+                if (dbcustomer != null)
                 {
                     throw new ValidationException(
                         $"Name {customer.LastName} {customer.FirstName} existiert bereits",
                         null, null);
+                }
+                if (!IbanChecker.CheckIban(customer.Iban))
+                {
+                    throw new ValidationException("Iban must be valid");
+                }
+                if(customer.LastName.Length < 2)
+                {
+                    throw new ValidationException("Minimum length of Lastname is 2");
+                    
+                }
+                if (string.IsNullOrWhiteSpace(customer.LastName))
+                {
+                    throw new ValidationException(
+                    "Lastname is required");
                 }
       }
 
