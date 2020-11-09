@@ -109,14 +109,14 @@ namespace RoomBooking.Wpf.ViewModels
                 if (_cmdSave == null)
                 {
                     _cmdSave = new RelayCommand(
-                      execute: _ =>
+                      execute: async _ =>
                       {
                           using IUnitOfWork uow = new UnitOfWork();
                           _customer.FirstName = FirstName;
                           _customer.LastName = LastName;
                           _customer.Iban = Iban;
                           uow.Customers.Update(_customer);
-                          uow.SaveAsync();
+                          await uow.SaveAsync();
                           Controller.CloseWindow(this);
 
                       },

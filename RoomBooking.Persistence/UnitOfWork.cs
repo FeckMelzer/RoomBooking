@@ -66,11 +66,12 @@ namespace RoomBooking.Persistence
       }
       if (entity is Customer customer)  // WPF-Anwendung
       {
-                var dbcustomer = await _dbContext.Customers.Where(c => c.Id != customer.Id
-                  && c.FirstName == customer.FirstName
-                  && c.LastName == customer.LastName).ToListAsync();
+                var dbcustomer = await _dbContext.Customers.FirstOrDefaultAsync(c =>
+                   c.FirstName == customer.FirstName
+                  && c.LastName == customer.LastName 
+                  && c.Id != customer.Id);
 
-                if (dbcustomer != null)
+                if (customer != null)
                 {
                     throw new ValidationException(
                         $"Name {customer.LastName} {customer.FirstName} existiert bereits",
@@ -80,16 +81,7 @@ namespace RoomBooking.Persistence
                 {
                     throw new ValidationException("Iban must be valid");
                 }
-                if(customer.LastName.Length < 2)
-                {
-                    throw new ValidationException("Minimum length of Lastname is 2");
-                    
-                }
-                if (string.IsNullOrWhiteSpace(customer.LastName))
-                {
-                    throw new ValidationException(
-                    "Lastname is required");
-                }
+             
       }
 
     }
